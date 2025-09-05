@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de avisos de adopción</title>
+     <style>
+        .tabla2, 
+        .tabla2 th, 
+        .tabla2 td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .tabla2 tbody tr {
+            cursor: pointer;
+        }
+
+        .tabla2 tbody tr:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+<body>
+    <div style="text-align: center;">
+    <h1> Listado de avisos de adopción </h1>
+    
+    <table id="tablaAvisos" class="tabla2" style="text-align: center;  margin: auto;">
+        <thead>
+            <tr>
+                <th> Fecha Publicación</th>
+                <th> Fecha Entrega</th>
+                <th>Comuna</th>
+                <th>Sector</th>
+                <th> Cantidad, tipo, edad</th>
+                <th>Nombre contacto</th>
+                <th>Total fotos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-id="1">
+                <td>01-07-2025 <br> 12:00</td>
+                <td>05-07-2025</td>
+                <td>Ñuñoa</td>
+                <td>Plaza Ñuñoa</td>
+                <td>1 gato <br> 2 años </td>
+                <td> Alexis Contreras</td>
+                <td> 1 </td>
+            </tr>
+
+             <tr data-id="2">
+                <td>25-02-2025 <br> 18:00</td>
+                <td>28-02-2025</td>
+                <td>Peñalolén</td>
+                <td>Comunidad ecológica</td>
+                <td>1 perro <br> 1 año </td>
+                <td> Homero Simpson</td>
+                <td> 2 </td>
+            </tr>
+            <tr data-id="3">
+                <td>20-02-2025 <br> 11:00</td>
+                <td>21-02-2025</td>
+                <td>Peñalolén</td>
+                <td>Las Pircas</td>
+                <td>1 gato <br> 5 meses </td>
+                <td> John Pork</td>
+                <td> 2 </td>
+            </tr>
+            <tr data-id="4">
+                <td>02-08-2025 <br> 19:30</td>
+                <td>03-08-2025</td>
+                <td>Maipú</td>
+                <td>Plaza Maipú</td>
+                <td>2 perros <br> 1 año y 1 año </td>
+                <td> Cristiano Ronaldo</td>
+                <td> 2 </td>
+            </tr>
+            <tr data-id="5">
+                <td>15-06-2025 <br> 20:00</td>
+                <td>20-06-2025</td>
+                <td>Santiago</td>
+                <td>Centro</td>
+                <td>2 gatos <br> 7 meses y 9 meses </td>
+                <td> Playboi Carti</td>
+                <td> 2 </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div id="detalleAviso" style="display:none; text-align:left;">
+    <h2>Detalle del Aviso</h2>
+    <p><strong>Fecha publicación:</strong> <span id="detalleFechaPub"></span></p>
+    <p><strong>Fecha entrega:</strong> <span id="detalleFechaEnt"></span></p>
+    <p><strong>Comuna:</strong> <span id="detalleComuna"></span></p>
+    <p><strong>Sector:</strong> <span id="detalleSector"></span></p>
+    <p><strong>Cantidad, tipo, edad:</strong> <span id="detalleCantidad"></span></p>
+    <p><strong>Nombre contacto:</strong> <span id="detalleNombre"></span></p>
+    <p><strong>Descripción:</strong> <span id="detalleDescripcion"></span></p>
+    <div id="detalleFotos"></div>
+    <br>
+    <button id="volverListado">Volver al listado de avisos</button>
+    <button onclick="window.location.href='Portada.html'">Volver a Portada</button>
+    </div>
+
+    </div>
+    
+
+<script src="Tarea1.js"></script>
+</body>

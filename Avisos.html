@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Adopción</title>
+</head>
+<body>
+    <div class="info_entrega">
+        <h1>Información del lugar de entrega</h1>
+        <form id="entrega-form" action="#" method="post" >
+            <label for="region"> Selecciona la región</label>
+            <select id="region" name="region">
+                <option value="" disabled selected> Elige una opción</option>
+                <option value="15">Arica y Parinacota</option>
+                <option value="1">Tarapacá</option>
+                <option value="2">Antofagasta</option>
+                <option value="3">Atacama</option>
+                <option value="4">Coquimbo</option>
+                <option value="5">Valparaíso</option>
+                <option value="13">Metropolitana de Santiago</option>
+                <option value="6">O’Higgins</option>
+                <option value="7">Maule</option>
+                <option value="16">Ñuble</option>
+                <option value="8">Biobío</option>
+                <option value="9">La Araucanía</option>
+                <option value="14">Los Ríos</option>
+                <option value="10">Los Lagos</option>
+                <option value="11">Aysén</option>
+                <option value="12">Magallanes</option>
+            </select>
+            <br><br>
+            <label for="comuna">Selecciona la comuna</label>
+            <select id="comuna" name="comuna">
+                <option value="" disabled selected> Selecciona una región primero </option>
+                
+            </select>
+            <br><br>
+            <label for="sector">Sector</label>
+            <input id="sector" name="sector" maxlength="100" >
+        </form>
+    </div>
+    <div class="info-contacto">
+        <h1>Contacto</h1>
+        <form id="contacto-form" action="#" method="post" >
+            <label for="nombre-persona">Nombre</label>
+            <input id="nombre-persona" name="nombre-persona" minlength="3" maxlength="200" >
+            <br><br>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" maxlength="100" >
+
+            <br><br>
+            <label for="telefono">Teléfono</label>
+            <input id="telefono" name="telefono" type="tel" >
+
+            <br><br>
+            <label for="redsocial">Contactar por</label>
+            <select id="redsocial" name="redsocial" >
+                <option value="" disabled selected> Selecciona una red social</option>
+                <option value="wsp">Whatsapp</option>
+                <option value="telegram">Telegram</option>
+                <option value="x">X</option>
+                <option value="ig">Instagram</option>
+                <option value="tiktok">TikTok</option>
+                <option value="Otra">Otra red</option>
+            </select>  
+
+        <div id="inputRed" style="display: none;">
+            <label for="usuariored"> Nombre de usuario o URL</label>
+            <input id="usuariored" name="usuariored">
+
+        </div>
+
+            
+        </form>
+    </div>
+    <div class="info-mascota " >
+        <h1>Información de mascota</h1>
+        <form id="mascota-form" action="#" method="post">
+            <label for="tipoMascota">Tipo de mascota</label>
+            <select id="tipoMascota" name="tipoMascota">
+                <option value="" disabled selected>Selecciona un tipo de mascota</option>
+                <option value="perro">Perro</option>
+                <option value="gato">Gato</option>
+            </select>
+
+            <br><br>
+            <label for="cantidad">Cantidad de mascotas</label>
+            <input id="cantidad" name="cantidad" type="number">
+
+            <br><br>
+            <label for="edad">Edad de mascota</label>
+            <input id="edad" name="edad" type="number">
+
+            <br><br>
+            <label for="unidadMedida">Unidad de medida de edad</label>
+            <select id="unidadMedida" name="unidadMedida">
+                <option value="" disabled selected>Selecciona una unidad de medida</option>
+                <option value="años">Años</option>
+                <option value="meses">Meses</option>
+            </select>
+
+            <br><br>
+            <label for="fechaEntrega">Fecha de entrega</label>
+            <input id="fechaEntrega"  type="datetime-local">
+
+           <br><br>
+            <label for="descripcion" style="vertical-align: top;">Descripción de mascota</label>
+            <textarea id="descripcion" name="descripcion" cols="50" rows="10" placeholder="Escribe una descripción de la mascota"></textarea>
+            
+            <br><br>
+            <label >Fotos (1 a 5)</label>
+            <div id ="conjuntoFotos">
+                <input name="fotos[]" type="file" accept="image/*" multiple>
+            </div>
+            <button type="button" id="agregarFoto">Agregar otra foto</button>
+            
+        </form>
+
+
+
+
+    </div>
+
+<br><br>
+<br><br>
+
+
+<button id="boton" type="submit">Agregar este aviso de adopción</button>
+<button onclick="window.location.href=`Portada.html` ">Volver a Portada</button>
+<script src="Tarea1.js"></script>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
