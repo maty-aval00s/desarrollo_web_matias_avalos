@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Aviso</title>
+</head>
+<body>
+    <h2>Detalle del Aviso</h2>
+    <p><strong>Fecha publicación:</strong> {{ aviso.fecha_ingreso.strftime('%d-%m-%Y %H:%M') }}</p>
+    <p><strong>Fecha entrega:</strong> {{ aviso.fecha_entrega.strftime('%d-%m-%Y') }}</p>
+    <p><strong>Comuna:</strong> {{ aviso.comuna.nombre if aviso.comuna else '' }}</p>
+    <p><strong>Sector:</strong> {{ aviso.sector }}</p>
+    <p><strong>Cantidad, tipo, edad:</strong> {{ aviso.cantidad }} {{ aviso.tipo }} <br> {{ aviso.edad }} {% if aviso.unidad_medida == 'a' %}años{% else %}meses{% endif %}</p>
+    <p><strong>Nombre contacto:</strong> {{ aviso.nombre }}</p>
+    <p><strong>Descripción:</strong> {{ aviso.descripcion }}</p>
+    <div>
+        <strong>Fotos:</strong>
+        {% for foto in fotos %}
+            <img src="{{ url_for('static', filename=foto.ruta_archivo) }}" alt="Foto" width="150">
+        {% endfor %}
+    </div>
+    <br>
+    <a href="{{ url_for('listado') }}">Volver al listado de avisos</a>
+    <a href="{{ url_for('portada') }}">Volver a Portada</a>
+</body>
+</html>

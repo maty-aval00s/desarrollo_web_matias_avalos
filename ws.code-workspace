@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../flask_app"
+		},
+		{
+			"path": "../Tarea1_MatiasAvalos"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "tarea2"
+	}
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estadísticas</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        figure.grafico {
+            margin: 30px auto;
+        }
+        figure.grafico img {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 400px;
+        }
+        figure.grafico figcaption {
+            margin-top: 8px;
+            font-weight: bold;
+        }
+        button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Estadísticas de adopción</h1>
+
+    <figure class="grafico">
+        <img src="GraficoLineas.png" alt="Gráfico de líneas">
+        <figcaption>Gráfico de líneas: cantidad de avisos por día en un mes.</figcaption>
+    </figure>
+
+    <figure class="grafico">
+        <img src="GraficoTorta.png" alt="Gráfico de torta">
+        <figcaption>Gráfico de torta: cantidad de avisos por mascota.</figcaption>
+    </figure>
+
+    <figure class="grafico">
+        <img src="GraficoBarras.png" alt="Gráfico de barras">
+        <figcaption>Gráfico de barras: cantidad de avisos por mascota en cada mes.</figcaption>
+    </figure>
+
+    <a href="{{ url_for('portada') }}"><button>Volver a Portada</button></a>
+</body>
+</html>
