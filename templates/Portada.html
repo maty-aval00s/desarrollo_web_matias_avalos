@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Página de Adopción</title>
+    <style>
+        .tabla1 {
+            text-align: center;
+            border-collapse: collapse;
+            margin: auto;
+            border: 1px solid black;
+        }
+        .tabla1 th, .tabla1 td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        .tabla1 img {
+            width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar" style="text-align: center;">
+        <h1>¡Bienvenido a HuellasBeauchef! 🐾</h1>
+        <nav>
+            <button type="button" onclick="window.location.href='{{ url_for('agregar_aviso') }}'"> Agregar aviso de adopción</button>
+            <button type="button" onclick="window.location.href='{{ url_for('listado') }}'"> Listado de adopciones</button>
+
+            <button type="button" onclick="window.location.href='{{ url_for('estadisticas') }}'"> Estadísticas de adopción</button>
+>
+        </nav>
+    </div>
+
+    <div style="text-align: center;">
+        <h2>Últimos avisos de adopción</h2>
+        <table class="tabla1">
+            <thead>
+                <tr>
+                    <th>Fecha de publicación</th>
+                    <th>Comuna</th>
+                    <th>Sector</th>
+                    <th>Cantidad, tipo, edad</th>
+                    <th>Foto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aviso in avisos %}
+                <tr>
+                    <td>{{ aviso.fecha_ingreso.strftime("%d-%m-%Y %H:%M") }}</td>
+                    <td>{{ aviso.comuna.nombre if aviso.comuna else '' }}</td>
+                    <td>{{ aviso.sector }}</td>
+                    <td>
+                        {{ aviso.cantidad }} {{ aviso.tipo }}<br>
+                        {{ aviso.edad }} {% if aviso.unidad_medida == 'a' %}años{% else %}meses{% endif %}
+                    </td>
+                    <td>
+                        {% if aviso.fotos and aviso.fotos|length > 0 %}
+                            <img src="{{ url_for('static', filename=aviso.fotos[0].ruta_archivo) }}" alt="Foto">
+                        {% else %}
+                            Sin foto
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
