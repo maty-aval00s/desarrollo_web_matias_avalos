@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de avisos de adopción</title>
+    <style>
+        .tabla2, .tabla2 th, .tabla2 td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .tabla2 tbody tr { cursor: pointer; }
+        .tabla2 tbody tr:hover { background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+    <h1>Listado de avisos de adopción</h1>
+    <table id="tablaAvisos" class="tabla2" style="text-align: center; margin: auto;">
+        <thead>
+            <tr>
+                <th>Fecha Publicación</th>
+                <th>Fecha Entrega</th>
+                <th>Comuna</th>
+                <th>Sector</th>
+                <th>Cantidad, tipo, edad</th>
+                <th>Nombre contacto</th>
+                <th>Total fotos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aviso in avisos %}
+            <tr onclick="window.location.href='/aviso/{{ aviso.id }}'">
+                <td>{{ aviso.fecha_ingreso.strftime('%d-%m-%Y %H:%M') }}</td>
+                <td>{{ aviso.fecha_entrega.strftime('%d-%m-%Y') }}</td>
+                <td>{{ aviso.comuna.nombre if aviso.comuna else '' }}</td>
+                <td>{{ aviso.sector }}</td>
+                <td>{{ aviso.cantidad }} {{ aviso.tipo }} <br> {{ aviso.edad }} {% if aviso.unidad_medida == 'a' %}años{% else %}meses{% endif %}</td>
+                <td>{{ aviso.nombre }}</td>
+                <td>{{ aviso.fotos|length }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        {% if page > 1 %}
+            <a href="{{ url_for('listado', page=page-1) }}">Anterior</a>
+        {% endif %}
+        {% if total > page*5 %}
+            <a href="{{ url_for('listado', page=page+1) }}">Siguiente</a>
+        {% endif %}
+    </div>
+    <br>
+    <a href="{{ url_for('portada') }}">Volver a Portada</a>
+    </div>
+</body>
+</html>
