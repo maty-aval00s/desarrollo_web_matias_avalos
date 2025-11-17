@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Estadísticas</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .chart-container {
+            width: 600px;
+            height: 300px;
+            margin: 30px auto;
+        }
+        .chart-container-small {
+            width: 400px;
+            height: 300px;  
+            margin: 30px auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>Estadísticas</h2>
+    
+    <div class="chart-container">
+        <h3>Avisos por Día</h3>
+        <div id="grafico-lineas"></div>
+    </div>
+    
+    <div class="chart-container-small">
+        <h3>Avisos por Tipo de Mascota</h3>
+        <div id="grafico-torta"></div>
+    </div>
+    
+    <div class="chart-container">
+        <h3>Avisos por Mes</h3>
+        <div id="grafico-barras"></div>
+    </div>
+    
+    <br>
+    <button type="button" onclick="window.location.href='{{ url_for('portada') }}'">Volver a la portada</button>
+    <button type="button" onclick="window.location.href='{{ url_for('listado') }}'">Listado</button>
+    <button type="button" onclick="window.location.href='{{ url_for('agregar_aviso') }}'">Agregar Aviso</button>
+    <button type="button" onclick="window.location.href='{{ url_for('evaluaciones') }}'" style="background-color: #3498db; color: white;">Evaluaciones</button>
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+<script>
+
+fetch("/api/estadisticas/avisos_por_dia")
+    .then(r => r.json())
+    .then(data => {
+        Highcharts.chart('grafico-lineas', {
+            chart: { type: 'line' },
+            title: { text: null },
+            xAxis: {
+                categories: data.map(d => d.fecha)
+            },
+            yAxis: {
+                title: { text: 'Cantidad de Avisos' }
+            },
+            series: [{
+                name: 'Avisos por día',
+                data: data.map(d => d.cantidad)
+            }]
+        });
+    });
+
+
+fetch("/api/estadisticas/avisos_por_tipo")
+    .then(r => r.json())
+    .then(data => {
+        Highcharts.chart('grafico-torta', {
+            chart: { type: 'pie' },
+            title: { text: null },
+            series: [{
+                name: 'Avisos',
+                data: data.map(d => ({
+                    name: d.tipo,
+                    y: d.cantidad
+                }))
+            }]
+        });
+    });
+
+
+fetch("/api/estadisticas/avisos_por_mes")
+    .then(r => r.json())
+    .then(data => {
+        Highcharts.chart('grafico-barras', {
+            chart: { type: 'column' },
+            title: { text: null },
+            xAxis: {
+                categories: data.map(d => d.mes)
+            },
+            yAxis: {
+                title: { text: 'Cantidad de Avisos' }
+            },
+            series: [{
+                name: 'Gatos',
+                data: data.map(d => d.gato)
+            }, {
+                name: 'Perros',
+                data: data.map(d => d.perro)
+            }]
+        });
+    });
+</script>
+</body>
+</html>

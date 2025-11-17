@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Aviso</title>
+</head>
+<body>
+    <h2>Detalle del Aviso</h2>
+    <p><strong>Fecha publicación:</strong> {{ aviso.fecha_ingreso.strftime('%d-%m-%Y %H:%M') }}</p>
+    <p><strong>Fecha entrega:</strong> {{ aviso.fecha_entrega.strftime('%d-%m-%Y') }}</p>
+    <p><strong>Comuna:</strong> {{ aviso.comuna.nombre if aviso.comuna else '' }}</p>
+    <p><strong>Sector:</strong> {{ aviso.sector }}</p>
+    <p><strong>Cantidad, tipo, edad:</strong> {{ aviso.cantidad }} {{ aviso.tipo }} <br> {{ aviso.edad }} {% if aviso.unidad_medida == 'a' %}años{% else %}meses{% endif %}</p>
+    <p><strong>Nombre contacto:</strong> {{ aviso.nombre }}</p>
+    <p><strong>Descripción:</strong> {{ aviso.descripcion }}</p>
+    <div>
+        <strong>Fotos:</strong>
+        {% for foto in fotos %}
+            <img src="{{ url_for('static', filename=foto.ruta_archivo) }}" alt="Foto" width="150">
+        {% endfor %}
+    </div>
+
+    <h2>Comentarios</h2>
+    <div id="comentarios-listado"></div>
+    <form id="form-comentario">
+        <input type="hidden" name="aviso_id" value="{{ aviso.id }}">
+        <label>Nombre:</label>
+        <input type="text" name="nombre" minlength="3" maxlength="80" required>
+        <br>
+        <label>Comentario:</label>
+        <textarea name="texto" rows="4" cols="50" minlength="5" required></textarea>
+        <br>
+        <button type="submit">Agregar comentario</button>
+        <div id="errores-comentario" style="color:red;"></div>
+    </form>
+
+    <script>
+        function cargarComentarios() {
+            fetch("/api/comentarios/{{ aviso.id }}")
+                .then(r => r.json())
+                .then(comentarios => {
+                    let html = "";
+                    comentarios.forEach(c => {
+                        html += `<div><b>${c.fecha}</b> - <strong>${c.nombre}</strong>:<br>${c.texto}</div><hr>`;
+                    });
+                    document.getElementById("comentarios-listado").innerHTML = html;
+                });
+        }
+        cargarComentarios();
+
+        document.getElementById("form-comentario").onsubmit = function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const datos = {
+                aviso_id: form.aviso_id.value,
+                nombre: form.nombre.value,
+                texto: form.texto.value
+            };
+            fetch("/api/comentarios/agregar", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(datos)
+            })
+            .then(r => r.json().then(j => ({status: r.status, body: j})))
+            .then(res => {
+                if (res.status === 200 && res.body.ok) {
+                    form.nombre.value = "";
+                    form.texto.value = "";
+                    document.getElementById("errores-comentario").innerText = "";
+                    cargarComentarios();
+                } else {
+                    document.getElementById("errores-comentario").innerText = res.body.errores.join("\n");
+                }
+            });
+        };
+    </script>
+
+    <br>
+    <a href="{{ url_for('listado') }}">Volver al listado de avisos</a> |
+    <a href="{{ url_for('portada') }}">Volver a Portada</a> |
+    <a href="{{ url_for('agregar_aviso') }}">Agregar Aviso</a> |
+    <a href="{{ url_for('estadisticas') }}">Estadísticas</a> |
+    <a href="{{ url_for('evaluaciones') }}" style="font-weight: bold;">Evaluaciones</a>
+</body>
+</html>
