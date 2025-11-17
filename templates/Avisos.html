@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Aviso de Adopción</title>
+</head>
+<body>
+    <h1>Agregar Aviso de Adopción</h1>
+
+```
+{% if errores %}
+  <div style="color: red;">
+    <ul>
+    {% for err in errores %}
+      <li>{{ err }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<form id="form-aviso" action="{{ url_for('agregar_aviso') }}" method="post" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Información del lugar de entrega</legend>
+        <label for="region">Región</label>
+        <select id="region" name="region">
+            <option value="" disabled selected>Elige una región</option>
+            {% for region in regiones %}
+                <option value="{{ region.id }}">{{ region.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="comuna">Comuna</label>
+        <select id="comuna" name="comuna">
+            <option value="" disabled selected> Selecciona una región primero </option>
+        </select>
+        <br><br>
+        <label for="sector">Sector</label>
+        <input id="sector" name="sector" maxlength="100" value="{{ datos.sector if datos else '' }}">
+    </fieldset>
+
+    <fieldset>
+        <legend>Contacto</legend>
+        <label for="nombre_persona">Nombre</label>
+        <input id="nombre_persona" name="nombre_persona" minlength="3" maxlength="200" value="{{ datos.nombre_persona if datos else '' }}">
+        <br><br>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" maxlength="100" value="{{ datos.email if datos else '' }}">
+        <br><br>
+        <label for="telefono">Teléfono</label>
+        <input id="telefono" name="telefono" type="tel" value="{{ datos.telefono if datos else '' }}">
+        <br><br>
+        <label for="redsocial">Contactar por</label>
+        <select id="redsocial" name="redsocial" onchange="toggleUsuariored()">
+            <option value="" disabled selected> Selecciona una red social</option>
+            <option value="wsp">Whatsapp</option>
+            <option value="telegram">Telegram</option>
+            <option value="x">X</option>
+            <option value="ig">Instagram</option>
+            <option value="tiktok">TikTok</option>
+            <option value="Otra">Otra</option>
+        </select>  
+        <div id="inputRed" style="display: none;">
+            <label for="usuariored"> Nombre de usuario o URL</label>
+            <input id="usuariored" name="usuariored" value="{{ datos.usuariored if datos else '' }}">
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Información de la mascota</legend>
+        <label for="tipo">Tipo de mascota</label>
+        <select id="tipo" name="tipo">
+            <option value="" disabled selected>Selecciona un tipo</option>
+            <option value="perro">Perro</option>
+            <option value="gato">Gato</option>
+        </select>
+        <br><br>
+        <label for="cantidad">Cantidad de mascotas</label>
+        <input id="cantidad" name="cantidad" type="number" value="{{ datos.cantidad if datos else '' }}">
+        <br><br>
+        <label for="edad">Edad de mascota</label>
+        <input id="edad" name="edad" type="number" value="{{ datos.edad if datos else '' }}">
+        <br><br>
+        <label for="unidad_medida">Unidad de medida de edad</label>
+        <select id="unidad_medida" name="unidad_medida">
+            <option value="" disabled selected>Selecciona una unidad de medida</option>
+            <option value="a">Años</option>
+            <option value="m">Meses</option>
+        </select>
+        <br><br>
+        <label for="fecha_entrega">Fecha de entrega</label>
+        <input id="fecha_entrega" name="fecha_entrega" type="datetime-local" value="{{ datos.fecha_entrega if datos else '' }}">
+        <br><br>
+        <label for="descripcion" style="vertical-align: top;">Descripción de mascota</label>
+        <textarea id="descripcion" name="descripcion" cols="50" rows="10" placeholder="Escribe una descripción">{{ datos.descripcion if datos else '' }}</textarea>
+        <br><br>
+        <label>Fotos (1 a 5)</label>
+          <div id="conjuntoFotos">
+              <input name="fotos" type="file" accept="image/*" multiple onchange="agregarCampoFoto(this)">
+          </div>
+          <p id="limiteFotos" style="color: gray;">Puedes agregar hasta 5 fotos.</p>
+
+          <script>
+          function agregarCampoFoto(input) {
+              const contenedor = document.getElementById('conjuntoFotos');
+              const total = contenedor.querySelectorAll('input[type="file"]').length;
+
+              if (total >= 5) {
+                  document.getElementById('limiteFotos').textContent = "Has alcanzado el máximo de 5 fotos.";
+                  return;
+              }
+
+              if (input.files.length > 0) {
+                  const nuevoInput = document.createElement('input');
+                  nuevoInput.type = 'file';
+                  nuevoInput.name = 'fotos';
+                  nuevoInput.accept = 'image/*';
+                  nuevoInput.onchange = function() { agregarCampoFoto(this); };
+                  contenedor.appendChild(document.createElement('br'));
+                  contenedor.appendChild(nuevoInput);
+              }
+          }
+          </script>
+
+    </fieldset>
+
+    <br>
+    <button type="submit">Agregar este aviso de adopción</button>
+    <button type="button" onclick="window.location.href='{{ url_for('portada') }}'">Volver a Portada</button>
+</form>
+
+<div style="margin-top: 20px; text-align: center;">
+    <a href="{{ url_for('portada') }}">Portada</a> |
+    <a href="{{ url_for('listado') }}">Listado</a> |
+    <a href="{{ url_for('estadisticas') }}">Estadísticas</a> |
+    <a href="{{ url_for('evaluaciones') }}" style="font-weight: bold;">Evaluaciones</a>
+</div>
+```
+
+<script>
+function toggleUsuariored() {
+  var sel = document.getElementById('redsocial');
+  var val = sel.value;
+  var div = document.getElementById('inputRed');
+  div.style.display = val ? 'block' : 'none';
+}
+
+document.getElementById('region').addEventListener('change', async function() {
+  const regionId = this.value;
+  const comunaSelect = document.getElementById('comuna');
+  comunaSelect.innerHTML = '<option disabled selected>Cargando comunas...</option>';
+  try {
+    const response = await fetch(`/comunas/${regionId}`);
+    const comunas = await response.json();
+    comunaSelect.innerHTML = '<option disabled selected>Elige una comuna</option>';
+    comunas.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = c.nombre;
+      comunaSelect.appendChild(opt);
+    });
+  } catch (err) {
+    comunaSelect.innerHTML = '<option disabled selected>Error al cargar</option>';
+  }
+});
+</script>
+
+</body>
+</html>
+
